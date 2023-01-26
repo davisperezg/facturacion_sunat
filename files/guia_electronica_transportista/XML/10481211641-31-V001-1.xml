@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+            <DespatchAdvice xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:qdt="urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2" xmlns:sac="urn:sunat:names:specification:ubl:peru:schema:xsd:SunatAggregateComponents-1" xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:udt="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ccts="urn:un:unece:uncefact:documentation:2" xmlns="urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2">
+                    <ext:UBLExtensions>
+                        <ext:UBLExtension>
+                            <ext:ExtensionContent></ext:ExtensionContent>
+                        </ext:UBLExtension>
+                    </ext:UBLExtensions><cbc:UBLVersionID>2.1</cbc:UBLVersionID>
+                    <cbc:CustomizationID>2.0</cbc:CustomizationID>
+                    <cbc:ID>V001-1</cbc:ID>
+                    <cbc:IssueDate>2023-01-09</cbc:IssueDate>
+                    <cbc:IssueTime>18:24:52</cbc:IssueTime>
+                    <cbc:DespatchAdviceTypeCode>31</cbc:DespatchAdviceTypeCode>
+                    <cbc:Note><![CDATA[112]]></cbc:Note><cac:Signature>
+                        <cbc:ID>10481211641</cbc:ID>
+                        <cac:SignatoryParty>
+                            <cac:PartyIdentification>
+                                <cbc:ID>10481211641</cbc:ID>
+                            </cac:PartyIdentification>
+                            <cac:PartyName>
+                                <cbc:Name><![CDATA[SANCHEZ MUÑOZ ANGEL JESUS]]></cbc:Name>
+                            </cac:PartyName>
+                        </cac:SignatoryParty>
+                        <cac:DigitalSignatureAttachment>
+                            <cac:ExternalReference>
+                                <cbc:URI>10481211641</cbc:URI>
+                            </cac:ExternalReference>
+                        </cac:DigitalSignatureAttachment>
+                    </cac:Signature><cac:DespatchSupplierParty>
+                        <cbc:CustomerAssignedAccountID schemeID="6">20000000001</cbc:CustomerAssignedAccountID>
+                        <cac:Party>
+                            <cac:PartyIdentification>
+                                <cbc:ID schemeID="6" schemeName="Documento de Identidad" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">10481211641</cbc:ID>
+                            </cac:PartyIdentification>
+                            <cac:PartyLegalEntity>
+                                <cbc:RegistrationName><![CDATA[SANCHEZ MUÑOZ ANGEL JESUS]]></cbc:RegistrationName>
+                            </cac:PartyLegalEntity>
+                        </cac:Party>
+                    </cac:DespatchSupplierParty><cac:DeliveryCustomerParty>
+                        <cac:Party>
+                            <cac:PartyIdentification>
+                                <cbc:ID schemeID="6" schemeName="Documento de Identidad" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">20604051984</cbc:ID>
+                            </cac:PartyIdentification>
+                            <cac:PartyLegalEntity>
+                                <cbc:RegistrationName><![CDATA[FACTURACION ELECTRONICA MONSTRUO E.I.R.L.]]></cbc:RegistrationName>
+                            </cac:PartyLegalEntity>
+                        </cac:Party>
+                    </cac:DeliveryCustomerParty><cac:Shipment>
+                        <cbc:ID>SUNAT_Envio</cbc:ID>
+                        <cbc:GrossWeightMeasure unitCode="KGM">111.00</cbc:GrossWeightMeasure>
+                        <cac:ShipmentStage>
+                            <cac:TransitPeriod>
+                                <cbc:StartDate>2023-01-09</cbc:StartDate>
+                            </cac:TransitPeriod>
+
+                            <cac:CarrierParty>
+                                <cac:PartyLegalEntity>
+                                    <cbc:CompanyID>1576728CNG</cbc:CompanyID>
+                                </cac:PartyLegalEntity>
+                            </cac:CarrierParty>
+
+                            <cac:DriverPerson>
+                                <cbc:ID schemeID="1">40708627</cbc:ID>
+                                <cbc:FirstName><![CDATA[HECTOR IVAN]]></cbc:FirstName>
+                                <cbc:FamilyName><![CDATA[DE LA CRUZ DEL CARPIO]]></cbc:FamilyName>
+                                <cbc:JobTitle>Principal</cbc:JobTitle>
+                                <cac:IdentityDocumentReference>
+                                    <cbc:ID>C80641345</cbc:ID>
+                                </cac:IdentityDocumentReference>
+                            </cac:DriverPerson>
+                        </cac:ShipmentStage>
+                        
+                        <cac:Delivery>
+                            <cac:DeliveryAddress>
+                                <cbc:ID schemeName="Ubigeos" schemeAgencyName="PE:INEI">160504</cbc:ID>
+                                <cac:AddressLine>
+                                    <cbc:Line><![CDATA[2222]]></cbc:Line>
+                                </cac:AddressLine>
+                            </cac:DeliveryAddress>
+                            <cac:Despatch>
+                                <cac:DespatchAddress>
+                                    <cbc:ID schemeName="Ubigeos" schemeAgencyName="PE:INEI">151019</cbc:ID>
+                                    <cac:AddressLine>
+                                        <cbc:Line><![CDATA[111]]></cbc:Line>
+                                    </cac:AddressLine>
+                                </cac:DespatchAddress>                                                                
+
+                                <cac:DespatchParty>
+                                    <cac:PartyIdentification>
+                                        <cbc:ID schemeID="6" schemeName="Documento de Identidad" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">10407086274</cbc:ID>
+                                    </cac:PartyIdentification>
+                                    <cac:PartyLegalEntity>
+                                        <cbc:RegistrationName><![CDATA[DE LA CRUZ DEL CARPIO HECTOR IVAN]]></cbc:RegistrationName>
+                                    </cac:PartyLegalEntity>
+                                </cac:DespatchParty>
+                            </cac:Despatch>
+                        </cac:Delivery>
+                        <cac:TransportHandlingUnit>
+                            <cac:TransportEquipment>
+                                <cbc:ID>BDY844</cbc:ID>
+                            </cac:TransportEquipment>
+                        </cac:TransportHandlingUnit>
+                    </cac:Shipment>
+                    <cac:DespatchLine>
+                        <cbc:ID>1</cbc:ID>
+                        <cbc:DeliveredQuantity unitCode="NIU" unitCodeListID="UN/ECE rec 20" unitCodeListAgencyName="United Nations Economic Commission for Europe">1.0</cbc:DeliveredQuantity>
+                        <cac:OrderLineReference>
+                            <cbc:LineID>2</cbc:LineID>
+                        </cac:OrderLineReference>
+                        <cac:Item>
+                            <cbc:Description>DETALLE DEL PRODUCTO 1</cbc:Description>
+                            <cac:SellersItemIdentification>
+                            <cbc:ID>001</cbc:ID>
+                            </cac:SellersItemIdentification>
+                        </cac:Item>
+                    </cac:DespatchLine>
+                    <cac:DespatchLine>
+                        <cbc:ID>2</cbc:ID>
+                        <cbc:DeliveredQuantity unitCode="NIU" unitCodeListID="UN/ECE rec 20" unitCodeListAgencyName="United Nations Economic Commission for Europe">1.0</cbc:DeliveredQuantity>
+                        <cac:OrderLineReference>
+                            <cbc:LineID>3</cbc:LineID>
+                        </cac:OrderLineReference>
+                        <cac:Item>
+                            <cbc:Description>DETALLE DEL PRODUCTO 2</cbc:Description>
+                            <cac:SellersItemIdentification>
+                                <cbc:ID>002</cbc:ID>
+                            </cac:SellersItemIdentification>
+                        </cac:Item>
+                    </cac:DespatchLine></DespatchAdvice>

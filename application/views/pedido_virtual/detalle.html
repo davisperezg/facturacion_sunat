@@ -1,0 +1,120 @@
+<style>
+    table{
+        width:100%;
+     }
+    
+    .btn-circle.btn-lg {
+        width: 50px;
+        height: 50px;
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.33;
+        border-radius: 25px;
+    }
+    #blb_numero{
+        padding-left: 15px;
+        padding-right: 15px;
+        font-size: 20px;
+    }
+</style>
+
+<div class="row" align="center">
+    <div class="col-xs-2"><a id="enlace_atras"><img width="50" id="img_atras"></a></div>
+    <div class="col-xs-8"><h2 id="categoria"></h2></div>
+    <div class="col-xs-2"></div>        
+</div>
+
+<div class="container" id="producto">
+    <h2 id="titulo"></h2>
+    
+    
+    
+    <table class="table table-responsive">                
+        <tr>
+            <td width="50%" rowspan="3" ><img class="border_imagen img-responsive" id="imagen"></td>
+            <td width="50%"><div id="descripcion"></div></td>
+        </tr>
+        <tr>
+            <td><div id="precio"></div></td>
+        </tr>
+        <tr>
+            <td>                
+                <button id="btn_bajar" type="button" class="btn btn-success btn-circle btn-lg"><i class="glyphicon glyphicon-minus"></i></button>                
+                <label id="blb_numero">1</label>                
+                <button id="btn_subir" type="button" class="btn btn-success btn-circle btn-lg"><i class="glyphicon glyphicon-plus"></i></button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div align='center' style="padding-top: 20px">
+    <a id="btn_carrito" class="btn btn-primary btn-lg">Agregar <i class="glyphicon glyphicon-shopping-cart"></i></a>
+</div>
+
+<script type="text/javascript">
+    var params_url              = window.location.hash;
+    var producto_id             = params_url.substring(1);
+    var numero                  = parseInt($("#blb_numero").text());
+    var porcentaje_valor_igv    = JSON.parse(localStorage.getItem("porcentaje_valor_igv"));
+    var imagen;
+    var precio_base = 0;
+
+    var url_categoria = base_url + 'index.php/ventas_ss/ws_productos_by_id/' + producto_id;
+    $.getJSON(url_categoria)
+    .done(function (data) {    
+        $("#titulo").text(data.producto);
+        $("#descripcion").text(data.descripcion);
+        $("#precio").text((data.precio_base_venta * ( 1 + porcentaje_valor_igv)).toFixed(2));
+        $("#imagen").attr('src', base_url + "images/productos/" + data.imagen);
+        precio_base = data.precio_base_venta;
+        
+        $("#img_atras").attr("src", base_url + "images/atras.png");
+        $("#enlace_atras").attr("href", base_url + "index.php/ventas_ss/pedido_virtual_nuevo_producto/#" + data.categoria_id);                        
+    });    
+    
+    $(document).ready(function(){
+        $("#btn_carrito").attr('href', base_url + 'index.php/ventas_ss/carrito_compras');
+        
+        $("#btn_bajar").on('click',function(){
+            if(numero > 1)
+            numero -= 1;
+        
+            $("#blb_numero").text(numero);
+            $("#precio").text((numero * precio_base * ( 1 + porcentaje_valor_igv)).toFixed(2));
+        });
+        $("#btn_subir").on('click',function(){
+            numero += 1;
+            $("#blb_numero").text(numero);            
+            $("#precio").text((numero * precio_base * ( 1 + porcentaje_valor_igv)).toFixed(2));
+        });
+        
+        $("#btn_carrito").on('click', function(){
+            var maximo = 0;
+            if(JSON.parse(localStorage.getItem("virtual_items"))){
+                var items = JSON.parse(localStorage.getItem("virtual_items"));
+                
+                $.each(items, function(i, item) {
+                    maximo = item.indice;
+                });
+                maximo ++;
+            }
+            
+            var array = [
+                {
+                    indice : maximo,
+                    producto_id: producto_id, 
+                    producto: $("#titulo").text(), 
+                    cantidad: $("#blb_numero").text(), 
+                    precio_base: precio_base
+                }
+            ];
+            
+            if(JSON.parse(localStorage.getItem("virtual_items"))){
+                var items = JSON.parse(localStorage.getItem("virtual_items"));
+                array = items.concat(array);
+            }
+            
+            localStorage.setItem("virtual_items", JSON.stringify(array));
+        });
+    });
+</script>

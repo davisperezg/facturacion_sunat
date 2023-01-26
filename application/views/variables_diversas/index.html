@@ -1,0 +1,195 @@
+<div class="container">
+    <h2 align="center">Configuraciones</h2>
+    <table class="table table-bordered table-responsive table-hover">        
+        <tbody>
+            <tr>
+                <td>Precio con IGV:</td>
+                <td><a data-activo="0" id="btn_precio_con_igv" class="btn btn-default">Desactivo</a></td>
+            </tr>
+            <tr>
+                <td>Tipo IGV(Defecto):</td>
+                <td>
+                    <select class="form-control" id="select_igv">                        
+                    </select>
+                    <br>
+                    <a data-activo="0" id="btn_tipo_igv" class="btn btn-info">Guardar</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Productos automáticos:</td>
+                <td><a id="btn_productos_automaticos" class="btn btn-default">Desactivo</a></td>
+            </tr>
+            <tr>
+                <td>Detracción:</td>
+                <td><a id="btn_detraccion" class="btn btn-default">Desactivo</a></td>
+            </tr>
+            <tr>
+                <td>Retensión:</td>
+                <td><a id="btn_retension" class="btn btn-default">Desactivo</a></td>
+            </tr>
+        </tbody>                
+    </table>    
+</div>
+
+<script type="text/javascript">
+    var activo = 'activo';
+    var desactivo = 'Desactivo';
+    var url_l = base_url + 'index.php/WS_variables_diversas/select_all';
+    $.getJSON(url_l)
+    .done(function (data) {
+        //console.log('data:' + data.precio_con_igv);
+        if(data.precio_con_igv == '1'){
+            activo_precio_con_igv();
+        }
+        
+        if(data.productos_automaticos == '1'){
+            activo_productos_automaticos();
+        }
+        
+        if(data.detracciones == '1'){
+            activo_detracciones();
+        }
+        
+        if(data.retenciones == '1'){
+            activo_retenciones();
+        }
+        
+        var url_2 = base_url + 'index.php/WS_tipo_igvs/select_js';
+        $.getJSON(url_2)
+        .done(function (datos) {        
+            (datos.tipo_igv).forEach(function (repo) {
+                $('#select_igv').append("<option value='" + repo.id + "'>" + repo.tipo_igv + "</option>");
+            });
+            $("#select_igv option[value='" + data.tipo_igv_defecto + "']").attr('selected', true);
+        });        
+    });
+    
+    $(document).ready(function(){
+        $("#btn_precio_con_igv").on('click', function(){
+            var field = 'precio_con_igv';
+            var valor = ($("#btn_precio_con_igv").attr("data-activo") == '1') ? '0' : '1';
+            var url_l = base_url + 'index.php/WS_variables_diversas/update_value/'+ field + '/' + valor;
+            $.getJSON(url_l)
+            .done(function (data) {
+                if(data == '0'){                    
+                    desactivo_precio_con_igv();
+                }
+                if(data == '1'){
+                    activo_precio_con_igv();
+                }
+            });
+        });
+        
+        $("#btn_productos_automaticos").on('click', function(){
+            var field = 'productos_automaticos';
+            var valor = ($("#btn_productos_automaticos").attr("data-activo") == '1') ? '0' : '1';
+            var url_l = base_url + 'index.php/WS_variables_diversas/update_value/'+ field + '/' + valor;
+            $.getJSON(url_l)
+            .done(function (data) {
+                if(data == '0'){                    
+                    desactivo_productos_automaticos();
+                }
+                if(data == '1'){
+                    activo_productos_automaticos();
+                }
+            });
+        });
+        
+        $("#btn_detraccion").on('click', function(){
+            var field = 'detracciones';
+            var valor = ($("#btn_detraccion").attr("data-activo") == '1') ? '0' : '1';
+            var url_l = base_url + 'index.php/WS_variables_diversas/update_value/'+ field + '/' + valor;
+            $.getJSON(url_l)
+            .done(function (data) {
+                if(data == '0'){                    
+                    desactivo_detracciones();
+                }
+                if(data == '1'){
+                    activo_detracciones();
+                }
+            });
+        });
+        
+        $("#btn_retension").on('click', function(){
+            var field = 'retenciones';
+            var valor = ($("#btn_retension").attr("data-activo") == '1') ? '0' : '1';
+            var url_l = base_url + 'index.php/WS_variables_diversas/update_value/'+ field + '/' + valor;
+            $.getJSON(url_l)
+            .done(function (data) {
+                if(data == '0'){                    
+                    desactivo_retenciones();
+                }
+                if(data == '1'){
+                    activo_retenciones();
+                }
+            });
+        });
+        
+        $("#btn_tipo_igv").on('click', function(){
+            var field = 'tipo_igv_defecto';
+            var valor = $("#select_igv").val();
+            var url_l = base_url + 'index.php/WS_variables_diversas/update_value/'+ field + '/' + valor;
+            $.getJSON(url_l)
+            .done(function (data) {
+                toast('success', 2500, 'Operación registrada correctamente');
+            });            
+        });
+    });
+    
+    function activo_precio_con_igv(){
+        $("#btn_precio_con_igv").removeClass();
+        $("#btn_precio_con_igv").addClass('btn btn-success');
+        $("#btn_precio_con_igv").text(activo);            
+        $("#btn_precio_con_igv").attr("data-activo", "1");
+    }
+    
+    function desactivo_precio_con_igv(){
+        $("#btn_precio_con_igv").removeClass();
+        $("#btn_precio_con_igv").addClass('btn btn-default');
+        $("#btn_precio_con_igv").text(desactivo);            
+        $("#btn_precio_con_igv").attr("data-activo", "0");
+    }
+    
+    function activo_productos_automaticos(){
+        $("#btn_productos_automaticos").removeClass();
+        $("#btn_productos_automaticos").addClass('btn btn-success');
+        $("#btn_productos_automaticos").text(activo);        
+        $("#btn_productos_automaticos").attr("data-activo", "1");        
+    }
+    
+    function desactivo_productos_automaticos(){
+        $("#btn_productos_automaticos").removeClass();
+        $("#btn_productos_automaticos").addClass('btn btn-default');
+        $("#btn_productos_automaticos").text(desactivo);        
+        $("#btn_productos_automaticos").attr("data-activo", "0");
+    }
+            
+    function activo_detracciones(){
+        $("#btn_detraccion").removeClass();
+        $("#btn_detraccion").addClass('btn btn-success');
+        $("#btn_detraccion").text(activo);        
+        $("#btn_detraccion").attr("data-activo", "1");        
+    }
+    
+    function desactivo_detracciones(){
+        $("#btn_detraccion").removeClass();
+        $("#btn_detraccion").addClass('btn btn-default');
+        $("#btn_detraccion").text(desactivo);        
+        $("#btn_detraccion").attr("data-activo", "0");
+    }        
+    
+    function activo_retenciones(){
+        $("#btn_retension").removeClass();
+        $("#btn_retension").addClass('btn btn-success');
+        $("#btn_retension").text(activo);        
+        $("#btn_retension").attr("data-activo", "1");        
+    }
+    
+    function desactivo_retenciones(){
+        $("#btn_retension").removeClass();
+        $("#btn_retension").addClass('btn btn-default');
+        $("#btn_retension").text(desactivo);        
+        $("#btn_retension").attr("data-activo", "0");
+    }
+    
+</script>

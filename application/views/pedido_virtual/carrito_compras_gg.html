@@ -1,0 +1,24 @@
+<h2 align="center">Sr(a). <span id="cliente_virtual"></span></h2>
+<h2 align="center">Pedido N.<span id="span_numero_pedido"></span> realizado correctamente.</h2>
+<h2 align="center">Será atendido con prontitud.</h2>
+
+<div class="row-fluid" align="center">
+    <img class="img-responsive" id="logo_empresa" align="center" style="text-align:center;" ><br>
+</div>
+
+<script type="text/javascript">
+    
+    var url_empresa = base_url + 'index.php/ventas_ss/ws_empresa';
+    $.getJSON(url_empresa)
+    .done(function (data) {    
+        $("#logo_empresa").attr('src', base_url + 'images/empresas/' + data.foto);
+    });        
+    
+    var cliente_virtual = localStorage.getItem('cliente_pedido_virtual');
+    var params_url      = window.location.hash;
+    var numero_pedido   = params_url.substring(1);
+    $("#span_numero_pedido").text(numero_pedido);
+    console.log('cliente_virtual:' + cliente_virtual);
+    
+    $("#cliente_virtual").text(cliente_virtual);        
+</script>

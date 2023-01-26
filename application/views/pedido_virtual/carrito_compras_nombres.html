@@ -1,0 +1,71 @@
+<h2 align="center">Enviar Pedido</h2>
+
+<div class="container">
+    <div><label>Nombre</label></div>
+    <input type="text" class="form form-control" id="nombres" />
+    <br>
+    <div><label>Ubicación/N. Mesa</label></div>
+    <input type="text" class="form form-control" id="notas" />
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <div align="center" class="col-xs-2"><a id="seguir" class="btn btn-info">Seguir comprando</a></div>
+        <div class="col-xs-7"></div>
+        <div class="col-xs-2" align="center"><a id="btn_enviar_pedido" class="btn btn-warning">Enviar Orden</a></div>
+    </div>    
+</div>
+
+<script type="text/javascript">
+    $("#seguir").attr('href', base_url + 'index.php/ventas_ss/pedido_virtual_nuevo');    
+    var porcentaje_valor_igv = localStorage.getItem("porcentaje_valor_igv");
+    console.log('porcentaje_valor_igv:' + porcentaje_valor_igv);
+    var total_grabada = 0;
+    
+    var url_save = base_url + 'index.php/ventas_ss/operaciones';        
+    $(document).ready(function(){
+        
+        var array_producto_id   = [];
+        var array_producto      = [];
+        var array_cantidad      = [];
+        var array_precio_base   = [];
+        var virtual_items       = JSON.parse(localStorage.getItem("virtual_items"));
+        var data                = {};            
+
+        $.each(virtual_items, function(i, item) {
+            array_producto_id.push(item.producto_id);
+            array_producto.push(item.producto);
+            array_cantidad.push(item.cantidad);
+            array_precio_base.push(item.precio_base);
+            total_grabada += parseFloat(item.precio_base * item.cantidad);
+        });
+        
+        $("#btn_enviar_pedido").on('click', function(){
+            localStorage.setItem("cliente_pedido_virtual", $("#nombres").val());                        
+            
+            data['producto_id']     = array_producto_id;
+            data['producto']        = array_producto;
+            data['cantidad']        = array_cantidad;
+            data['precio_base']     = array_precio_base;
+            
+            data['total_gravada']   = (total_grabada).toFixed(2);            
+            data['nombres']         = $("#nombres").val();
+            data['notas']           = $("#notas").val();
+            data['porcentaje_igv']  = porcentaje_valor_igv;
+            
+            $.getJSON(url_save, data)
+            .done(function(datos, textStatus, jqXHR){
+                localStorage.removeItem('virtual_items');
+                var numero_pedido = datos.numero_pedido;
+                window.location.href = base_url + 'index.php/ventas_ss/carrito_compras_gg/#' + numero_pedido;
+            })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                if ( console && console.log ) {
+                    console.log( "Algo ha fallado: " +  textStatus );
+                }
+            });            
+            
+        });
+        
+    });
+</script>    

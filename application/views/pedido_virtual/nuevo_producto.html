@@ -1,0 +1,65 @@
+<style>
+    .border{
+        border: 2px solid green;
+        border-radius: 35px;                
+    }
+    
+    .border_imagen{        
+        border-top-left-radius:     33px;
+        border-bottom-left-radius:  33px;
+    }
+    
+    table{
+        width:100%;        
+     }
+</style>
+
+<div class="row" align="center">
+    <div class="col-xs-2"><a id="enlace_atras"><img width="50" id="img_atras"></a></div>
+    <div class="col-xs-8"><h2 id="categoria"></h2></div>
+    <div class="col-xs-2"></div>        
+</div>
+
+<div class="container" id="productos">    
+</div>
+
+<script type="text/javascript">
+    var params_url      = window.location.hash;
+    var categoria_id    = params_url.substring(1);
+    var imagen;
+    var porcentaje_valor_igv = JSON.parse(localStorage.getItem("porcentaje_valor_igv"));
+
+    var url_categoria = base_url + 'index.php/ventas_ss/ws_categorias_by_id/' + categoria_id;
+    $.getJSON(url_categoria)
+    .done(function (data) {    
+        $("#categoria").text(data.categoria);
+    });
+    
+    var url_producto = base_url + 'index.php/ventas_ss/ws_productos_by_categoria_id/' + categoria_id;
+    $.getJSON(url_producto)
+    .done(function (data) {    
+        data.forEach(function (repo) {
+			console.log('repo:'+repo);
+            imagen = '<a href="'+base_url+'index.php/ventas_ss/detalle/#' + repo.id + '"><img class="border_imagen img-responsive" width="350" src="' + base_url + 'images/productos/' + repo.imagen + '"></a>';
+            
+            var fila = '<div class="border"><table class="table table-responsive" with="100%">\n\
+                            <tr>\n\
+                                <td width="50%" rowspan="3">' + imagen + '</td>\n\
+                                <td style="padding-left: 10px"><b>' + repo.producto + '</b></td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td style="padding-left: 10px"> ' + repo.descripcion + ' </td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td style="padding-right: 10px" align="right"><b>S/. ' + (repo.precio_base_venta * (1 + porcentaje_valor_igv)).toFixed(2) + '</b></td>\n\
+                            </tr>\n\
+                        </table></div><br>';
+            $("#productos").append(fila);
+        });
+    });        
+            
+    $(document).ready(function(){
+        $("#img_atras").attr("src", base_url + "images/atras.png");
+        $("#enlace_atras").attr("href", base_url + "index.php/ventas_ss/pedido_virtual_nuevo");
+    });
+</script>

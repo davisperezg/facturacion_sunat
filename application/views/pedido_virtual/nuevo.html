@@ -1,0 +1,100 @@
+<style>
+    .wrapperImage h1 {
+        color: #ffffff;
+        position: absolute;
+        z-index: 100;
+        width: 100%;
+        text-align: center;
+        height: 100%;
+        top: -20px;
+        display: grid;
+        align-items: center;
+    }
+    .wrapperImage {
+        position: relative;
+        margin-bottom:15px;
+        margin-left:5px;
+        margin-right:5px;
+    }
+    .esquinas_redondeadas {
+        border-radius: 20px;
+        border: 1px solid gray;
+        overflow: hidden;
+        height: 150px;
+        padding: 0px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        filter:brightness(0.5);
+        align-items: center;
+        display: grid;
+    }
+</style>
+<div class="row" align="center">
+    <div class="col-xs-3">
+    </div>
+    <div class="col-xs-6">
+        <img class="img-responsive" id="logo_empresa" width="450">
+    </div>
+    <div class="col-xs-3">
+    </div>    
+</div>
+<br>
+<div class="container" id="categorias">    
+</div>
+
+<script type="text/javascript">
+    $.getJSON(base_url + 'index.php/ventas_ss/ws_porcentaje_valor_igv')
+            .done(function (data) {
+                localStorage.setItem("porcentaje_valor_igv", JSON.stringify(data));
+            });
+
+    $(document).ready(function () {
+//        var contador = 1;
+//        var valor_impar = '';
+//        var imagen = '';
+        var url_empresa = base_url + 'index.php/ventas_ss/ws_empresa';
+//        var texto_box = 'texto here';
+
+        $.getJSON(url_empresa)
+                .done(function (data) {
+                    $("#logo_empresa").attr('src', base_url + 'images/empresas/' + data.foto);
+                });
+
+        var url_categorias = base_url + 'index.php/ventas_ss/ws_categorias';
+        console.log('url_categorias:' + url_categorias);
+        $.getJSON(url_categorias)
+                .done(function (data) {
+                    data.forEach(function (repo) {
+//                        imagen = '</a>';
+
+                        var fila = '<div class="row wrapperImage">\n\
+                                        <a href="' + base_url + 'index.php/ventas_ss/pedido_virtual_nuevo_producto/#' + repo.id + '"><h1>' + repo.categoria + '</h1></a>\n\
+                                            <div align="center" class="col-xs-12 esquinas_redondeadas" style="background-image:url(' + base_url + 'images/categorias/' + repo.imagen + ')">\n\
+                                            </div>\n\
+                                    </div>';
+                        $("#categorias").append(fila);
+
+                        //Fumada para q salgan 2 por fila.
+//                if(contador % 2 == 0){
+//                    var fila = '<div class="row">\n\
+//                                    <div class="col-xs-6">' + valor_impar + '</div>\n\
+//                                    <div class="col-xs-6">' + imagen + '</div>\n\
+//                                </div>';
+//                    $("#categorias").append(fila);
+//                }
+//                valor_impar = imagen;
+//                contador ++;
+                    });
+
+//                    console.log(data.length);
+//                    if (data.length % 2 == 1) {
+//                        var fila = '<div class="row">\n\
+//                                <div class="col-xs-6">' + imagen + '</div>\n\
+//                            </div>';
+//                        $("#categorias").append(fila);
+//                    }
+                });
+
+    });
+</script>

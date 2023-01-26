@@ -1,0 +1,84 @@
+<style>
+    .linea {
+        border-top: 1px solid black;
+        height: 1px;
+        
+        padding: 0;
+        margin: 5px auto 0 auto;
+        padding-bottom: 5px;
+    }
+</style>
+<div class="row" align="center">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8"><h2>Carrito de compras.</h2></div>
+    <div class="col-xs-2"></div>        
+</div>
+
+<div class="container" id="div_items">
+    <div class="row">
+        <div class="col-xs-6">Productos</div>
+        <div class="col-xs-6">Detalle</div>        
+    </div>
+    <div class="row linea"></div>
+</div>
+
+<div>
+    <div align="center">IGV:<span id="span_igv"></span></div>
+    <div align="center">Total:<span id="span_total"></span></div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div align="center" class="col-xs-2"><a id="seguir" class="btn btn-info">Seguir comprando</a></div>
+        <div class="col-xs-7"></div>
+        <div class="col-xs-2" align="center"><a id="siguiente" class="btn btn-warning">Siguiente</a></div>
+    </div>    
+</div>
+
+<script type="text/javascript">
+    var total = 0;
+    var porcentaje_valor_igv = JSON.parse(localStorage.getItem("porcentaje_valor_igv"));
+    let virtual_items = JSON.parse(localStorage.getItem("virtual_items"));
+    $("#seguir").attr('href', base_url + 'index.php/ventas_ss/pedido_virtual_nuevo');
+    $("#siguiente").attr('href', base_url + 'index.php/ventas_ss/carrito_compras_nombres');    
+    
+    $.each(virtual_items, function(i, item) {
+        var fila = '<div>\n\
+                        <div class="row">\n\
+                            <div class="col-xs-6 producto">' + item.producto + '</div>\n\
+                            <div class="col-xs-6">Precio: ' + parseFloat(item.precio_base * (1 + porcentaje_valor_igv)).toFixed(2) + '<br>Cantidad: ' + item.cantidad + '<br>SubTotal: ' + (parseFloat(item.cantidad) * parseFloat(item.precio_base) * (1 + porcentaje_valor_igv)).toFixed(2) + '\
+                            <br><a data-indice="' + item.indice + '" id="'+ i +'" class="btn_eliminar_item"><i class="glyphicon glyphicon-trash"></i></a></div>\n\
+                        </div>\n\
+                        <div class="linea"></div>\n\
+                    </div>';
+                    $("#div_items").append(fila);
+        total += parseFloat(item.cantidad) * parseFloat(item.precio_base * (1 + porcentaje_valor_igv));
+    });
+    
+    $(document).ready(function(){
+        $("#span_igv").text((total/(1 + porcentaje_valor_igv)).toFixed(2));
+        $("#span_total").text((total).toFixed(2));
+        
+        $("#div_items").on('click', '.btn_eliminar_item', function(e){
+            var indice = $(this).data('indice');
+            var x = confirm("Eliminar producto: " + $(this).parent().parent().find('.producto').text() + 'indice:' + indice);
+
+            if(x){
+                let datosArray = JSON.parse(localStorage.getItem("virtual_items"));
+                
+                let transactionIndexInArray = datosArray.findIndex(element => element.indice == indice);
+                datosArray.splice(transactionIndexInArray, 1);
+                let transactionArrayJSON = JSON.stringify(datosArray);
+                localStorage.setItem("virtual_items", transactionArrayJSON);                                
+                $(this).parent().parent().parent().empty();
+                
+                total = 0;
+                $.each(datosArray, function(i, item) {
+                    total += parseFloat(item.cantidad) * parseFloat(item.precio_base * (1 + porcentaje_valor_igv));            
+                });
+            }
+            $("#span_igv").text((total/(1 + porcentaje_valor_igv)).toFixed(2));
+            $("#span_total").text((total).toFixed(2));
+        });
+    });
+</script>
